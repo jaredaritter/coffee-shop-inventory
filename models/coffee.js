@@ -7,8 +7,8 @@ const CoffeeSchema = new Schema({
   description: { type: String, required: true },
   origin: { type: Schema.Types.ObjectId, ref: 'Origin', required: true },
   roast: { type: Schema.Types.ObjectId, ref: 'Roast', required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
+  price: { type: Number, min: 0, max: 1000, required: true },
+  quantity: { type: Number, min: 0, max: 100, required: true },
 });
 
 // VIRTUALS
