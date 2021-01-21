@@ -1,10 +1,19 @@
 // REQUIRED MODULES
 
 // MODEL MODULES
+const Roast = require('../models/roast');
 
 // INDIVIDUAL CONTROLLER FUNCTIONS
 exports.roast_list = function (req, res, next) {
-  res.send('Roast List still needs to be created.');
+  Roast.find().exec(function (err, roast_list) {
+    if (err) {
+      return next(err);
+    }
+    res.render('roast_list', {
+      title: 'Roast List',
+      roast_list: roast_list,
+    });
+  });
 };
 
 exports.roast_detail = function (req, res, next) {
