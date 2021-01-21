@@ -8,8 +8,17 @@ a {
   text-decoration: none;
 }
 
+section {
+  margin: 20px 0;
+}
+
 .sidebar-nav {
   margin-top: 20px;
   padding: 0;
   list-style: none;
+}
+
+.indent {
+  margin-top: 10px;
+  margin-left: 10px;
 }
