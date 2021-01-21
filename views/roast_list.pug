@@ -5,12 +5,17 @@ extends layout
 block content
   h1= title
 
-  h4 The currently available roasts are:
+  section
+    h4 Roast Levels
+    p How long beans are roasted plays a large role in how they taste after you brew with them as well as how easy it is to extract all of their coffee goodness. 
 
-  ul
-    each roast in roast_list
-      li
-        a(href=roast.url) #{roast.name}
+  section
+    h4 Our current roasts:
+
+    ul
+      each roast in roast_list
+        li
+          a(href=roast.url) #{roast.name}
 
   if error
     p #{error.msg}
