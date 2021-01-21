@@ -1,10 +1,36 @@
 // REQUIRED MODULES
+const async = require('async');
 
 // MODEL MODULES
+const Coffee = require('../models/coffee');
+const Origin = require('../models/origin');
+const Roast = require('../models/roast');
 
 // INDEX CONTROLLER FUNCTION
 exports.index = function (req, res, next) {
-  res.render('index', { title: 'Express Inventory' });
+  async.parallel(
+    {
+      coffee_count: function (callback) {
+        Coffee.countDocuments({}, callback);
+      },
+      origin_count: function (callback) {
+        Origin.countDocuments({}, callback);
+      },
+      roast_count: function (callback) {
+        Roast.countDocuments({}, callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      res.render('index', {
+        title: 'Coffee Shop Inventory',
+        data: results,
+        error: err,
+      });
+    }
+  );
 };
 
 // INDIVIDUAL CONTROLLER FUNCTIONS
