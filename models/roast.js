@@ -4,10 +4,11 @@ const Schema = mongoose.Schema;
 
 const RoastSchema = new Schema({
   name: { type: String, required: true },
+  // WILL BENEFIT FROM HAVING DESCRIPTION ATTRIBUTE
 });
 
 RoastSchema.virtual('url').get(function () {
-  return '/roast' + this._id;
+  return `/inventory/roast/${this._id}`;
 });
 
 module.exports = mongoose.model('Roast', RoastSchema);

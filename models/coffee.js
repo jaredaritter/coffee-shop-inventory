@@ -13,7 +13,7 @@ const CoffeeSchema = new Schema({
 
 // VIRTUALS
 CoffeeSchema.virtual('url').get(function () {
-  return '/coffee' + this._id;
+  return `/inventory/coffee/${this._id}`;
 });
 
 module.exports = mongoose.model('Coffee', CoffeeSchema);

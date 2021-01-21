@@ -8,7 +8,7 @@ const OriginSchema = new Schema({
 });
 
 OriginSchema.virtual('url').get(function () {
-  return '/origin' + this._id;
+  return `/inventory/origin/${this._id}`;
 });
 
 module.exports = mongoose.model('Origin', OriginSchema);
