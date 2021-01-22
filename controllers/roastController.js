@@ -1,7 +1,9 @@
 // REQUIRED MODULES
+const async = require('async');
 
 // MODEL MODULES
 const Roast = require('../models/roast');
+const Coffee = require('../models/coffee');
 
 // INDIVIDUAL CONTROLLER FUNCTIONS
 exports.roast_list = function (req, res, next) {
@@ -17,7 +19,32 @@ exports.roast_list = function (req, res, next) {
 };
 
 exports.roast_detail = function (req, res, next) {
-  res.send('Roast Detail still needs to be created.');
+  async.parallel(
+    {
+      roast: function (callback) {
+        Roast.findById(req.params.id).exec(callback);
+      },
+      coffee_list: function (callback) {
+        Coffee.find({ roast: req.params.id }).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      if (results.roast === null) {
+        const err = new Error('Roast not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(results.coffee_list);
+      res.render('roast_detail', {
+        title: 'Roast Details',
+        roast: results.roast,
+        coffee_list: results.coffee_list,
+      });
+    }
+  );
 };
 
 exports.roast_create_get = function (req, res, next) {

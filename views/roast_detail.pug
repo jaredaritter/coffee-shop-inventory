@@ -1,0 +1,20 @@
+//- PASSING IN TITLE, ROAST, COFFEE_LIST, ERROR
+
+extends layout
+
+block content
+  h1= title
+
+  section
+    h4 Roast Information:
+  
+  section
+    h4 All beans with this roast:
+
+    ul
+      each coffee in coffee_list
+        li
+          a(href=coffee.url) #{coffee.name}
+
+  if error
+    p #{error.msg}
