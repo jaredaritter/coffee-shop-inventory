@@ -1,0 +1,13 @@
+//- PASSING IN TITLE, ORIGIN, ERRORS
+
+extends layout
+
+block content
+
+  h1= title
+  
+  p #[strong Country:] #{origin.country}
+  p #[strong Producer:] #{origin.producer ? origin.producer : 'unknown'}
+
+  if error
+    p error.msg

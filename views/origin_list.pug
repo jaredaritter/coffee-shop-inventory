@@ -1,0 +1,17 @@
+//- PASSING IN TITLE, ORIGIN_LIST, ERROR
+
+extends layout
+
+block content
+  h1= title
+
+  section
+    h4 Our current origin list:
+    
+    ul
+      each origin in origin_list
+        li
+          a(href=origin.url) #{origin.country}
+  
+  if error
+    p #{error.msg}
