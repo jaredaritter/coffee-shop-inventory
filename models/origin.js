@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const OriginSchema = new Schema({
   country: { type: String, required: true },
+  // ADD REGION
   producer: { type: String },
 });
 
