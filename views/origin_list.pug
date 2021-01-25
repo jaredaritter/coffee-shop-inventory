@@ -10,8 +10,12 @@ block content
     
     ul
       each origin in origin_list
-        li
-          a(href=origin.url) #{origin.country}
-  
+        if origin.producer
+          li
+            a(href=origin.url) #{origin.country} - #{origin.producer}
+        else
+          li
+            a(href=origin.url) #{origin.country}
+
   if error
     p #{error.msg}
