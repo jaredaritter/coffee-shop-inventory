@@ -35,11 +35,39 @@ exports.index = function (req, res, next) {
 
 // INDIVIDUAL CONTROLLER FUNCTIONS
 exports.coffee_list = function (req, res, next) {
-  res.send('Coffee List still needs to be created.');
+  Coffee.find()
+    // .populate('origin')
+    // .populate('roast')
+    .sort({ name: 1 })
+    .exec(function (err, coffee_list) {
+      if (err) {
+        return next(err);
+      }
+      res.render('coffee_list', {
+        title: 'Coffee List',
+        coffee_list: coffee_list,
+      });
+    });
 };
 
 exports.coffee_detail = function (req, res, next) {
-  res.send('Coffee Detail still needs to be created.');
+  Coffee.findById(req.params.id)
+    .populate('origin')
+    .populate('roast')
+    .exec(function (err, coffee) {
+      if (err) {
+        return next(err);
+      }
+      if (coffee === null) {
+        const error = new Error('Coffee not found');
+        error.status = 404;
+        return next(err);
+      }
+      res.render('coffee_detail', {
+        title: `Coffee: ${coffee.name}`,
+        coffee: coffee,
+      });
+    });
 };
 
 exports.coffee_create_get = function (req, res, next) {

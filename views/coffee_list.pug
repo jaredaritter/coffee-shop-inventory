@@ -1,0 +1,16 @@
+//- PASSING IN TITLE AND COFFEE_LIST
+
+extends layout
+
+block content
+
+  h1=  title
+
+  .indent
+    ul
+      each coffee in coffee_list
+        li
+          a(href=coffee.url) #{coffee.name}
+  
+  if error
+    p #{error.msg}

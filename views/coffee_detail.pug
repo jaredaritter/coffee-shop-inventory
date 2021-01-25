@@ -1,0 +1,17 @@
+//- PASSING TITLE, COFFEE
+
+extends layout
+
+block content
+
+  h1= title
+
+  .indent
+    p #[strong Description:] #{coffee.description}
+    p #[strong Origin:] #{coffee.origin.country}
+    p #[strong Roast:] #{coffee.roast.name}
+    p #[strong Price:] $#{coffee.price}/bag
+    p #[strong Quantity:] #{coffee.quantity} bags in stock
+
+  if error
+    p #{error.msg}
