@@ -36,8 +36,6 @@ exports.index = function (req, res, next) {
 // INDIVIDUAL CONTROLLER FUNCTIONS
 exports.coffee_list = function (req, res, next) {
   Coffee.find()
-    // .populate('origin')
-    // .populate('roast')
     .sort({ name: 1 })
     .exec(function (err, coffee_list) {
       if (err) {
