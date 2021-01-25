@@ -111,6 +111,53 @@ exports.origin_update_get = (req, res, next) => {
   });
 };
 
+// FULL USE OF ELSE CONDITIONALS FOR FLOW CONTROL
+// exports.origin_update_post = [
+//   body('country').trim().isLength({ min: 1 }).escape(),
+//   body('producer').trim().escape(),
+//   (req, res, next) => {
+//     const errors = validationResult(req);
+//     const origin = new Origin({
+//       country: req.body.country,
+//       producer: req.body.producer,
+//       _id: req.params.id,
+//     });
+//     if (!errors.isEmpty()) {
+//       res.render('origin_form', {
+//         title: `Update: ${origin.country}`,
+//         origin: origin,
+//         errors: errors,
+//       });
+//     } else {
+//       Origin.findOne(
+//         { country: origin.country, producer: origin.producer },
+//         function (err, found_origin) {
+//           if (err) {
+//             return next(err);
+//           }
+//           if (found_origin) {
+//             res.redirect(found_origin.url);
+//           } else {
+//             Origin.findByIdAndUpdate(
+//               req.params.id,
+//               origin,
+//               {},
+//               function (err, updated_origin) {
+//                 if (err) {
+//                   return next(err);
+//                 } else {
+//                   res.redirect(updated_origin.url);
+//                 }
+//               }
+//             );
+//           }
+//         }
+//       );
+//     }
+//   },
+// ];
+
+// ALTERNATE VERSION WITHOUT EXPLICIT ELSE CONDITIONALS
 exports.origin_update_post = [
   body('country').trim().isLength({ min: 1 }).escape(),
   body('producer').trim().escape(),
@@ -127,32 +174,29 @@ exports.origin_update_post = [
         origin: origin,
         errors: errors,
       });
-    } else {
-      Origin.findOne(
-        { country: origin.country, producer: origin.producer },
-        function (err, found_origin) {
-          if (err) {
-            return next(err);
-          }
-          if (found_origin) {
-            res.redirect(found_origin.url);
-          } else {
-            Origin.findByIdAndUpdate(
-              req.params.id,
-              origin,
-              {},
-              function (err, updated_origin) {
-                if (err) {
-                  return next(err);
-                } else {
-                  res.redirect(updated_origin.url);
-                }
-              }
-            );
-          }
-        }
-      );
     }
+    Origin.findOne(
+      { country: origin.country, producer: origin.producer },
+      function (err, found_origin) {
+        if (err) {
+          return next(err);
+        }
+        if (found_origin) {
+          res.redirect(found_origin.url);
+        }
+        Origin.findByIdAndUpdate(
+          req.params.id,
+          origin,
+          {},
+          function (err, updated_origin) {
+            if (err) {
+              return next(err);
+            }
+            res.redirect(updated_origin.url);
+          }
+        );
+      }
+    );
   },
 ];
 
