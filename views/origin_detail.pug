@@ -9,5 +9,11 @@ block content
   p #[strong Country:] #{origin.country}
   p #[strong Producer:] #{origin.producer ? origin.producer : 'unknown'}
 
+  hr
+  p
+    a(href=origin.url + '/update') Update
+  p
+    a(href=origin.url + '/delete') Delete
+
   if error
     p error.msg
