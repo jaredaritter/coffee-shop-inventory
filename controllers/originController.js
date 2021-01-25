@@ -1,4 +1,5 @@
 // REQUIRED MODULES
+const { body, validationResult } = require('express-validator');
 
 // MODEL MODULES
 const Origin = require('../models/origin');
@@ -35,12 +36,62 @@ exports.origin_detail = function (req, res, next) {
 };
 
 exports.origin_create_get = function (req, res, next) {
-  res.send('Origin Create GET still needs to be created.');
+  res.render('origin_form', {
+    title: 'Create Origin',
+  });
 };
 
-exports.origin_create_post = (req, res, next) => {
-  res.send('Origin Create POST still needs to be created.');
-};
+exports.origin_create_post = [
+  // VALIDATE AND SANITIZE FORM INFORMATION
+  body('country', 'Country name is required')
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body('producer').trim().escape(),
+
+  // PROCESS REQUEST
+  (req, res, next) => {
+    // EXTRACT ERRORS
+    const errors = validationResult(req);
+
+    // CREATE OBJECT WITH CLEANED DATA
+    const origin = new Origin({
+      country: req.body.country,
+      producer: req.body.producer,
+    });
+
+    if (!errors.isEmpty()) {
+      // RERENDER PAGE WITH SANITIZED DATA
+      res.render('origin_form', {
+        title: 'Create Origin',
+        origin: origin,
+        errors: errors.array(),
+      });
+    } else {
+      // CHECK IF ORIGIN/PRODUCER ALREADY EXISTS
+      Origin.findOne({
+        country: origin.country,
+        producer: origin.producer,
+      }).exec(function (err, found_origin) {
+        if (err) {
+          return next(err);
+        }
+        if (found_origin) {
+          // REDIRECT TO FOUND ORIGIN PAGE
+          res.redirect(found_origin.url);
+        } else {
+          // SAVE ORIGIN TO DB AND REDIRECT TO ORIGIN DETAIL PAGE
+          origin.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            res.redirect(origin.url);
+          });
+        }
+      });
+    }
+  },
+];
 
 exports.origin_update_get = (req, res, next) => {
   res.send('Origin Update GET still needs to be created.');
