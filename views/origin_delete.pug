@@ -1,0 +1,20 @@
+//- PASSING IN TITLE, ORIGIN
+
+extends layout
+
+block content
+
+  h1= title
+
+  h4 Are you sure you want to delete #[em #{origin.country} - #{origin.producer}]?
+
+  form(action='' method='post')
+    .form-group
+      input.form-control(
+        id='originid'
+        name='originid'
+        type='hidden'
+        value=origin._id
+        required
+      )
+    button.btn.btn-primary(type='submit') Confirm

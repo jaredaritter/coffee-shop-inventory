@@ -112,52 +112,6 @@ exports.origin_update_get = (req, res, next) => {
 };
 
 // FULL USE OF ELSE CONDITIONALS FOR FLOW CONTROL
-// exports.origin_update_post = [
-//   body('country').trim().isLength({ min: 1 }).escape(),
-//   body('producer').trim().escape(),
-//   (req, res, next) => {
-//     const errors = validationResult(req);
-//     const origin = new Origin({
-//       country: req.body.country,
-//       producer: req.body.producer,
-//       _id: req.params.id,
-//     });
-//     if (!errors.isEmpty()) {
-//       res.render('origin_form', {
-//         title: `Update: ${origin.country}`,
-//         origin: origin,
-//         errors: errors,
-//       });
-//     } else {
-//       Origin.findOne(
-//         { country: origin.country, producer: origin.producer },
-//         function (err, found_origin) {
-//           if (err) {
-//             return next(err);
-//           }
-//           if (found_origin) {
-//             res.redirect(found_origin.url);
-//           } else {
-//             Origin.findByIdAndUpdate(
-//               req.params.id,
-//               origin,
-//               {},
-//               function (err, updated_origin) {
-//                 if (err) {
-//                   return next(err);
-//                 } else {
-//                   res.redirect(updated_origin.url);
-//                 }
-//               }
-//             );
-//           }
-//         }
-//       );
-//     }
-//   },
-// ];
-
-// ALTERNATE VERSION WITHOUT EXPLICIT ELSE CONDITIONALS
 exports.origin_update_post = [
   body('country').trim().isLength({ min: 1 }).escape(),
   body('producer').trim().escape(),
@@ -174,38 +128,110 @@ exports.origin_update_post = [
         origin: origin,
         errors: errors,
       });
-    }
-    Origin.findOne(
-      { country: origin.country, producer: origin.producer },
-      function (err, found_origin) {
-        if (err) {
-          return next(err);
-        }
-        if (found_origin) {
-          res.redirect(found_origin.url);
-        }
-        Origin.findByIdAndUpdate(
-          req.params.id,
-          origin,
-          {},
-          function (err, updated_origin) {
-            if (err) {
-              return next(err);
-            }
-            res.redirect(updated_origin.url);
+    } else {
+      Origin.findOne(
+        { country: origin.country, producer: origin.producer },
+        function (err, found_origin) {
+          if (err) {
+            return next(err);
           }
-        );
-      }
-    );
+          if (found_origin) {
+            res.redirect(found_origin.url);
+          } else {
+            Origin.findByIdAndUpdate(
+              req.params.id,
+              origin,
+              {},
+              function (err, updated_origin) {
+                if (err) {
+                  return next(err);
+                } else {
+                  res.redirect(updated_origin.url);
+                }
+              }
+            );
+          }
+        }
+      );
+    }
   },
 ];
 
 exports.origin_delete_get = (req, res, next) => {
-  res.send('Origin Delete GET still needs to be created.');
+  Origin.findById(req.params.id).exec(function (err, origin) {
+    if (err) {
+      return next(err);
+    }
+    if (origin === null) {
+      res.redirect('/inventory/origins');
+    } else {
+      res.render('origin_delete', {
+        title: `Delete Origin`,
+        origin: origin,
+      });
+    }
+  });
 };
 
 exports.origin_delete_post = (req, res, next) => {
-  res.send('Origin Delete POST still needs to be created.');
+  Origin.findById(req.body.originid).exec(function (err, origin) {
+    if (err) {
+      return next(err);
+    }
+    if (origin === null) {
+      res.redirect('/inventory/origins');
+    } else {
+      Origin.findByIdAndRemove(req.body.originid, function deleteOrigin(err) {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/inventory/origins');
+      });
+    }
+  });
 };
 
 // EXPORTS.NAME ASSIGNMENT OR A MODULE.EXPORTS ASSIGNMENT AT END BOTH WORK TO EXPORT CONTROLLER FUNCTIONS
+
+// ALTERNATE ORIGIN UPDATE POST WITHOUT EXPLICIT ELSE CONDITIONALS
+// exports.origin_update_post = [
+//   body('country').trim().isLength({ min: 1 }).escape(),
+//   body('producer').trim().escape(),
+//   (req, res, next) => {
+//     const errors = validationResult(req);
+//     const origin = new Origin({
+//       country: req.body.country,
+//       producer: req.body.producer,
+//       _id: req.params.id,
+//     });
+//     if (!errors.isEmpty()) {
+//       res.render('origin_form', {
+//         title: `Update: ${origin.country}`,
+//         origin: origin,
+//         errors: errors,
+//       });
+//     }
+//     Origin.findOne(
+//       { country: origin.country, producer: origin.producer },
+//       function (err, found_origin) {
+//         if (err) {
+//           return next(err);
+//         }
+//         if (found_origin) {
+//           res.redirect(found_origin.url);
+//         }
+//         Origin.findByIdAndUpdate(
+//           req.params.id,
+//           origin,
+//           {},
+//           function (err, updated_origin) {
+//             if (err) {
+//               return next(err);
+//             }
+//             res.redirect(updated_origin.url);
+//           }
+//         );
+//       }
+//     );
+//   },
+// ];
