@@ -48,27 +48,39 @@ exports.roast_detail = function (req, res, next) {
 };
 
 exports.roast_create_get = function (req, res, next) {
-  res.send('Roast Create GET still needs to be created.');
+  res.send(
+    'Roast Create GET working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 exports.roast_create_post = (req, res, next) => {
-  res.send('Roast Create POST still needs to be created.');
+  res.send(
+    'Roast Create POST working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 exports.roast_update_get = (req, res, next) => {
-  res.send('Roast Update GET still needs to be created.');
+  res.send(
+    'Roast Update GET working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 exports.roast_update_post = (req, res, next) => {
-  res.send('Roast Update POST still needs to be created.');
+  res.send(
+    'Roast Update POST working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 exports.roast_delete_get = (req, res, next) => {
-  res.send('Roast Delete GET still needs to be created.');
+  res.send(
+    'Roast Delete GET working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 exports.roast_delete_post = (req, res, next) => {
-  res.send('Roast Delete POST still needs to be created.');
+  res.send(
+    'Roast Delete POST working correctly. Currently not going to create, update, or delete roasts.'
+  );
 };
 
 // EXPORTS.NAME ASSIGNMENT OR A MODULE.EXPORTS ASSIGNMENT AT END BOTH WORK TO EXPORT CONTROLLER FUNCTIONS
