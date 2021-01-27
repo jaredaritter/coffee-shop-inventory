@@ -1,5 +1,6 @@
 // REQUIRED MODULES
 const async = require('async');
+const { body, validationResult } = require('express-validator');
 
 // MODEL MODULES
 const Coffee = require('../models/coffee');
@@ -69,7 +70,31 @@ exports.coffee_detail = function (req, res, next) {
 };
 
 exports.coffee_create_get = function (req, res, next) {
-  res.send('Coffee Create GET still needs to be created.');
+  // NEED ORIGIN AND ROAST FROM DB FOR SELECT INPUTS
+  async.parallel(
+    {
+      origin_list: function (callback) {
+        // FIND ALL ORIGINS
+        Origin.find({}, callback);
+      },
+      roast_list: function (callback) {
+        // FIND ALL ROASTS
+        Roast.find({}, callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      // DO OTHER THINGS
+      // RENDER COFFEE FORM VIEW
+      res.render('coffee_form', {
+        title: 'Create Coffee',
+        origin_list: results.origin_list,
+        roast_list: results.roast_list,
+      });
+    }
+  );
 };
 
 exports.coffee_create_post = (req, res, next) => {
