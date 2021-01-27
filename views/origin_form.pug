@@ -14,7 +14,7 @@ block content
         name='country'
         type='text'
         placeholder='Columbia, Ethiopia, etc.'
-        value=(origin.country ? origin.country : '')
+        value=(origin ? origin.country : '')
         required
       )
       label(for='producer') Producer:
@@ -23,7 +23,7 @@ block content
         name='producer'
         type='text'
         placeholder='Doe family, Doe farms, etc.'
-        value=(origin.producer ? origin.producer : '')
+        value=(origin ? origin.producer : '')
       )
     button.btn.btn-primary(type='submit') Submit
 
