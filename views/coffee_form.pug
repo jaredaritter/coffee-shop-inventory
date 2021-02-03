@@ -32,7 +32,12 @@ block content
           name='origin-country'
         )
           each origin in origin_list
-            option(value=origin.country) #{origin.country}
+            if coffee
+              option(
+                value=origin._id
+              ) #{origin.country}
+            else
+              option(value=origin._id) #{origin.country}
       .mb-3
         label.form-label(for='roast-name') Roast:
         select.form-select(
@@ -57,7 +62,7 @@ block content
           id='quantity'
           name='quantity'
           type='number'
-          value=(coffee ? coffee.price : 0)
+          value=(coffee ? coffee.quantity : 0)
           min='0'
           max='100'
         )
