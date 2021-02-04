@@ -103,11 +103,11 @@ exports.coffee_create_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body('origin', 'Origin must not be empty.')
+  body('origin_country', 'Origin must not be empty.')
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body('roast', 'Roast must not be empty.')
+  body('roast_name', 'Roast must not be empty.')
     .trim()
     .isLength({ min: 1 })
     .escape(),
@@ -132,8 +132,8 @@ exports.coffee_create_post = [
     const coffee = new Coffee({
       name: req.body.name,
       description: req.body.description,
-      origin: req.body.origin,
-      roast: req.body.roast,
+      origin: req.body.origin_country,
+      roast: req.body.roast_name,
       price: req.body.price,
       quantity: req.body.quantity,
     });

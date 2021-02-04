@@ -15,6 +15,7 @@ block content
         type='text'
         placeholder='Happy Mornings Blend, etc.'
         value=(coffee ? coffee.name : '')
+        required
       )
     .mb-3
       label.form-label(for='description') Description:
@@ -24,28 +25,39 @@ block content
         type='text'
         placeholder='Bright, Sweet, Fruity, etc.'
         value=(coffee ? coffee.description : '')
+        required
       )
       .mb-3
-        label.form-label(for='origin-country') Origin:
+        label.form-label(for='origin_country') Origin:
         select.form-select(
-          id='origin-country'
-          name='origin-country'
+          id='origin_country'
+          name='origin_country'
+          required
         )
           each origin in origin_list
             if coffee
               option(
                 value=origin._id
+                selected=(origin._id.toString() === coffee.origin._id.toString() ? 'selected' : false)
               ) #{origin.country}
             else
               option(value=origin._id) #{origin.country}
       .mb-3
-        label.form-label(for='roast-name') Roast:
+        label.form-label(for='roast_name') Roast:
         select.form-select(
-          id='roast-name'
-          name='roast-name'
+          id='roast_name'
+          name='roast_name'
+          required
         )
-          each roast in roast_list
-            option(value=roast.name) #{roast.name}
+          if coffee
+            each roast in roast_list
+              option(
+                value=roast._id
+                selected=(roast._id.toString() === coffee.roast._id.toString() ?'selected' : false)
+              ) #{roast.name}
+          else
+            each roast in roast_list
+              option(value=roast._id) #{roast.name}
       .mb-3
         label.form-label(for='price') Price:
         input.form-control(
@@ -55,6 +67,7 @@ block content
           value=(coffee ? coffee.price : 0)
           min='0'
           max='1000'
+          required
         )
       .mb-3
         label.form-label(for='quantity') Quantity:
@@ -65,6 +78,7 @@ block content
           value=(coffee ? coffee.quantity : 0)
           min='0'
           max='100'
+          required
         )
     button.btn.btn-primary.mb-3(type='submit') Submit
 
