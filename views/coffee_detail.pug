@@ -13,5 +13,10 @@ block content
     p #[strong Price:] $#{coffee.price}/bag
     p #[strong Quantity:] #{coffee.quantity} bags in stock
 
+  p 
+    a(href=(coffee.url + '/update')) Update 
+  p 
+    a(href=(coffee.url + '/delete')) Delete
+
   if error
     p #{error.msg}
