@@ -6,15 +6,17 @@ const Origin = require('../models/origin');
 
 // INDIVIDUAL CONTROLLER FUNCTIONS
 exports.origin_list = function (req, res, next) {
-  Origin.find({}, function (err, origin_list) {
-    if (err) {
-      return next(err);
-    }
-    res.render('origin_list', {
-      title: 'Origin List',
-      origin_list: origin_list,
+  Origin.find()
+    .sort({ country: 1, producer: 1 })
+    .exec(function (err, origin_list) {
+      if (err) {
+        return next(err);
+      }
+      res.render('origin_list', {
+        title: 'Origin List',
+        origin_list: origin_list,
+      });
     });
-  });
 };
 
 exports.origin_detail = function (req, res, next) {
