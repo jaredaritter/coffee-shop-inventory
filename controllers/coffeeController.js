@@ -181,9 +181,33 @@ exports.coffee_create_post = [
   },
 ];
 
-exports.coffee_update_get = (req, res, next) => {
-  res.send('Coffee Update GET still needs to be created.');
-};
+exports.coffee_update_get = [
+  // GET COFFEE BASED ON ID WITH ORIGIN_LIST AND ROAST_LIST
+  async.parallel(
+    {
+      coffee: function (callback) {
+        Coffee.findById(req.params.id, callback);
+      },
+      // NEEDS COMPLETION!
+      origin_list: function (callback) {},
+      roast_list: function (callback) {},
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      // RENDER
+      else {
+        res.render('coffee_form', {
+          title: `Update: ${results.coffee.name}`,
+          coffee: results.coffee,
+          origin_list: results.origin_list,
+          roast_list: results.roast_list,
+        });
+      }
+    }
+  ),
+];
 
 exports.coffee_update_post = (req, res, next) => {
   res.send('Coffee Update POST still needs to be created.');
