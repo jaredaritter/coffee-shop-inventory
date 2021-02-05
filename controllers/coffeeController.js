@@ -181,16 +181,18 @@ exports.coffee_create_post = [
   },
 ];
 
-exports.coffee_update_get = [
-  // GET COFFEE BASED ON ID WITH ORIGIN_LIST AND ROAST_LIST
+exports.coffee_update_get = function (req, res, next) {
   async.parallel(
     {
       coffee: function (callback) {
         Coffee.findById(req.params.id, callback);
       },
-      // NEEDS COMPLETION!
-      origin_list: function (callback) {},
-      roast_list: function (callback) {},
+      origin_list: function (callback) {
+        Origin.find(callback);
+      },
+      roast_list: function (callback) {
+        Roast.find(callback);
+      },
     },
     function (err, results) {
       if (err) {
@@ -206,8 +208,9 @@ exports.coffee_update_get = [
         });
       }
     }
-  ),
-];
+  );
+};
+// GET COFFEE BASED ON ID WITH ORIGIN_LIST AND ROAST_LIST
 
 exports.coffee_update_post = (req, res, next) => {
   res.send('Coffee Update POST still needs to be created.');
