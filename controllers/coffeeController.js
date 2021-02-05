@@ -182,6 +182,7 @@ exports.coffee_create_post = [
 ];
 
 exports.coffee_update_get = function (req, res, next) {
+  // GET COFFEE BASED ON ID WITH ORIGIN_LIST AND ROAST_LIST
   async.parallel(
     {
       coffee: function (callback) {
@@ -210,7 +211,6 @@ exports.coffee_update_get = function (req, res, next) {
     }
   );
 };
-// GET COFFEE BASED ON ID WITH ORIGIN_LIST AND ROAST_LIST
 
 exports.coffee_update_post = (req, res, next) => {
   res.send('Coffee Update POST still needs to be created.');
