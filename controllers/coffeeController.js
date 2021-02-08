@@ -299,11 +299,29 @@ exports.coffee_update_post = [
 ];
 
 exports.coffee_delete_get = (req, res, next) => {
-  res.send('Coffee Delete GET still needs to be created.');
+  Coffee.findById(req.params.id).exec(function (err, coffee) {
+    if (err) {
+      return next(err);
+    }
+    if (coffee === null) {
+      res.redirect('/inventory/coffees');
+    } else {
+      res.render('coffee_delete', {
+        title: 'Delete Coffee',
+        coffee: coffee,
+      });
+    }
+  });
 };
 
 exports.coffee_delete_post = (req, res, next) => {
-  res.send('Coffee Delete POST still needs to be created.');
+  Coffee.findByIdAndRemove(req.body.coffee_id, function deleteCoffee(err) {
+    if (err) {
+      return next(err);
+    } else {
+      res.redirect('/inventory/coffees');
+    }
+  });
 };
 
 // EXPORTS.NAME ASSIGNMENT OR A MODULE.EXPORTS ASSIGNMENT AT END BOTH WORK TO EXPORT CONTROLLER FUNCTIONS

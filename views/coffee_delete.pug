@@ -1,0 +1,21 @@
+//- PASSING IN TITLE, COFFEE(NON-POPULATED)
+
+extends layout 
+
+block content 
+  h1 #{title}: #{coffee.name} 
+
+  p Are you sure you want to delete this coffee?
+
+  form(method='POST' action='')
+    .mb-3
+      input#coffee_id.form-control(
+        type='hidden'
+        name='coffee_id'
+        required 
+        value=coffee._id
+      )
+    .mb-3
+      button.btn.btn-primary(type='submit') Yes
+
+  //- Some hidden form submitting coffee_id
